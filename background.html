@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Zine Toytekin - Background</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav>
+        <a class="brand" href="index.html">Zine Toytekin</a>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a class="active" href="background.html">Background</a>
+            <a href="technologies.html">Technologies</a>
+            <a href="internships.html">Internships</a>
+        </div>
+    </nav>
+
+    <main>
+        <h1 class="page-title">Background</h1>
+
+        <section>
+            <h2>Education</h2>
+            <p>I am a 4th-year Geomatics Engineering student at Hacettepe University.</p>
+        </section>
+
+        <section>
+            <h2>Where I study</h2>
+            <p>Zoom in to see the campus markers. </p>
+            <div id="leaflet-map" class="map"></div>
+            <p class="map-note">Current zoom: <strong id="zoom-level">6</strong> &middot; <span id="marker-status">markers hidden</span></p>
+        </section>
+    </main>
+
+    <footer>&copy; 2026 Zine Toytekin</footer>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        const MARKER_MIN_ZOOM = 9;
+
+        const map = L.map('leaflet-map', {
+            center: [39.9, 32.8],
+            zoom: 6,
+            minZoom: 2,
+            // Sorun 2: Dünya tekrar etmesin
+            maxBounds: [[-90, -180], [90, 180]],
+            maxBoundsViscosity: 1.0
+        });
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors',
+            noWrap: true,
+            bounds: [[-90, -180], [90, 180]]
+        }).addTo(map);
+
+        // Yaklaşık koordinatlar
+        const places = [
+            { name: 'Hacettepe University - Beytepe', pos: [39.867, 32.735] },
+            { name: 'Hacettepe University - Sıhhiye', pos: [39.934, 32.861] }
+        ];
+
+        const markerLayer = L.layerGroup(
+            places.map(p => L.marker(p.pos).bindPopup(p.name))
+        );
+
+        // Sorun 1: Marker'lar sadece belirli bir zoom seviyesinden sonra görünsün
+        function updateMarkers() {
+            const z = map.getZoom();
+            document.getElementById('zoom-level').textContent = z;
+            const show = z >= MARKER_MIN_ZOOM;
+            if (show && !map.hasLayer(markerLayer)) map.addLayer(markerLayer);
+            if (!show && map.hasLayer(markerLayer)) map.removeLayer(markerLayer);
+            document.getElementById('marker-status').textContent =
+                show ? 'markers visible' : 'markers hidden (zoom in to level ' + MARKER_MIN_ZOOM + ')';
+        }
+
+        map.on('zoomend', updateMarkers);
+        updateMarkers();
+    </script>
+</body>
+</html>

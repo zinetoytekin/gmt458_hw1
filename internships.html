@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Zine Toytekin - Internships</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@9.2.4/ol.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav>
+        <a class="brand" href="index.html">Zine Toytekin</a>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="background.html">Background</a>
+            <a href="technologies.html">Technologies</a>
+            <a class="active" href="internships.html">Internships</a>
+        </div>
+    </nav>
+
+    <main>
+        <h1 class="page-title">Internships</h1>
+
+        <section>
+            <h2>Özçiçek Surveying &amp; Mapping Engineering</h2>
+            <p>Surveying and mapping engineering office.</p>
+            <ul class="duties">
+                <li>Carried out classical surveying and mapping operations.</li>
+                <li>Worked on expropriation (land acquisition) projects.</li>
+                <li>Worked on zoning (development plan) projects.</li>
+                <li>Used NetCAD for the project work.</li>
+            </ul>
+            <p class="map-note"><a href="https://maps.app.goo.gl/11Hpm5VG88KFm5eu8" target="_blank" rel="noopener">Open in Google Maps</a></p>
+        </section>
+
+        <section>
+            <h2>Aware Robotics</h2>
+            <p>Robotics company, Kayaşehir office.</p>
+            <ul class="duties">
+                <li>Ran robot simulations in Gazebo.</li>
+                <li>Used ROS to control and test the simulated robots.</li>
+            </ul>
+            <p class="map-note"><a href="https://maps.app.goo.gl/HNGV3hDSjFiJJDqAA" target="_blank" rel="noopener">Open in Google Maps</a></p>
+        </section>
+        <section>
+            <h2>Internship locations</h2>
+            <p>Both internships on one map. Zoom in and pan to explore.</p>
+            <div id="ol-map" class="map"></div>
+        </section>
+    </main>
+
+    <footer>&copy; 2026 Zine Toytekin</footer>
+    <script src="https://cdn.jsdelivr.net/npm/ol@9.2.4/dist/ol.js"></script>
+    <script>
+
+        /* ---------- OpenLayers ---------- */
+        const worldExtent = [-20037508.34, -20037508.34, 20037508.34, 20037508.34];
+        const spots = [
+            { name: 'Özçiçek', lonlat: [38.6231493, 37.7809446] },
+            { name: 'Aware Robotics', lonlat: [28.7746943, 41.1199666] }
+        ];
+
+        const olMap = new ol.Map({
+            target: 'ol-map',
+            layers: [
+                new ol.layer.Tile({
+                    // wrapX: false -> dünya yatayda tekrarlanmaz
+                    source: new ol.source.OSM({ wrapX: false })
+                })
+            ],
+            view: new ol.View({
+                center: ol.proj.fromLonLat([33.5, 39.5]),
+                zoom: 5,
+                minZoom: 2,
+                extent: worldExtent
+            })
+        });
+
+        function pinStyle(feature) {
+            return new ol.style.Style({
+                image: new ol.style.Circle({
+                    radius: 8,
+                    fill: new ol.style.Fill({ color: '#7dd3fc' }),
+                    stroke: new ol.style.Stroke({ color: '#14103a', width: 3 })
+                }),
+                text: new ol.style.Text({
+                    text: feature.get('name'),
+                    offsetY: -20,
+                    font: '600 14px "Source Sans 3", Arial, sans-serif',
+                    fill: new ol.style.Fill({ color: '#14103a' }),
+                    stroke: new ol.style.Stroke({ color: '#ffffff', width: 4 })
+                })
+            });
+        }
+
+        olMap.addLayer(new ol.layer.Vector({
+            source: new ol.source.Vector({
+                features: spots.map(p => {
+                    const f = new ol.Feature({
+                        geometry: new ol.geom.Point(ol.proj.fromLonLat(p.lonlat)),
+                        name: p.name
+                    });
+                    return f;
+                })
+            }),
+            style: pinStyle
+        }));
+    </script>
+</body>
+</html>

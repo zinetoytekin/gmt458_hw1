@@ -1,19 +1,286 @@
+/* ===== Tasarım değişkenleri ===== */
+:root {
+    --indigo-900: #14103a;
+    --indigo-800: #1d1850;
+    --indigo-600: #2f4a9a;
+    --panel: rgba(10, 16, 48, 0.7);
+    --line: rgba(255, 255, 255, 0.14);
+    --text: #f2f0ff;
+    --muted: #b9b5dc;
+    --gold: #f0fc0b;
+    --font-head: "Sora", "Segoe UI", Arial, sans-serif;
+    --font-body: "Source Sans 3", "Segoe UI", Arial, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
 body {
-    font-family: Arial, sans-serif;
-    margin: 40px auto;
-    max-width: 800px;
-    line-height: 1.6;
-    color: #333;
-    background-color: #f9f9f9;
+    margin: 0;
+    min-height: 100vh;
+    font-family: var(--font-body);
+    font-size: 1.1rem;
+    line-height: 1.65;
+    color: var(--text);
+    background-color: var(--indigo-900); /* görsel yüklenmezse yedek renk */
 }
+
+/* Arka plan görseli: her sayfada, her zaman tüm ekranı kaplar.
+   background-attachment: fixed mobilde sorunlu olduğu için
+   sabit konumlu bir katman kullanıyoruz. */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background: url("backp.jpg") center / cover no-repeat;
+}
+
+/* Metin okunurluğu için görselin üstüne çok hafif koyu perde */
+body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(180deg, rgba(10, 8, 34, 0.25), rgba(10, 8, 34, 0.55));
+}
+
+/* ===== Menü ===== */
 nav {
-    background-color: #2c3e50;
-    padding: 15px;
-    text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 16px clamp(20px, 5vw, 64px);
+    background: rgba(20, 16, 58, 0.82);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
 }
-nav a {
-    color: white;
+
+.brand {
+    font-family: var(--font-head);
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: var(--text);
     text-decoration: none;
-    margin: 0 15px;
-    font-weight: bold;
+}
+
+.nav-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 32px;
+}
+
+.nav-links a {
+    position: relative;
+    padding: 6px 0;
+    color: var(--text);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.25s ease;
+}
+
+.nav-links a::after {
+    content: "";
+    position: absolute;
+    left: 0; bottom: 0;
+    width: 100%; height: 2px;
+    background: var(--gold);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.25s ease;
+}
+
+.nav-links a:hover,
+.nav-links a.active { color: var(--gold); }
+
+.nav-links a:hover::after,
+.nav-links a.active::after { transform: scaleX(1); }
+
+a:focus-visible, button:focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 3px;
+}
+
+/* ===== Ortak içerik ===== */
+main {
+    width: min(1040px, 100% - 40px);
+    margin: 0 auto;
+    padding: 48px 0 64px;
+}
+
+h1, h2, h3 {
+    font-family: var(--font-head);
+    line-height: 1.2;
+    margin: 0 0 16px;
+}
+
+h1 { font-size: clamp(2rem, 4vw, 2.8rem); }
+h2 { font-size: 1.5rem; }
+h3 { font-size: 1.15rem; }
+
+p { margin: 0 0 16px; max-width: 68ch; }
+
+.page-title { margin-bottom: 28px; }
+
+section {
+    background: var(--panel);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 32px;
+    margin-bottom: 28px;
+}
+
+section > :last-child { margin-bottom: 0; }
+
+footer {
+    text-align: center;
+    padding: 24px 20px 40px;
+    color: var(--muted);
+    font-size: 0.95rem;
+}
+
+/* ===== Ana sayfa (hero) ===== */
+.hero {
+    min-height: calc(100vh - 140px);
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    align-items: center;
+    gap: 40px;
+}
+
+.hero h1 {
+    font-size: clamp(2.4rem, 5.5vw, 4rem);
+    margin-bottom: 12px;
+}
+
+.hero .role {
+    font-family: var(--font-head);
+    font-size: 1.2rem;
+    color: var(--gold);
+    margin-bottom: 20px;
+}
+
+.hero .lead { font-size: 1.2rem; color: var(--text); }
+
+.actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 28px; }
+
+.btn {
+    display: inline-block;
+    padding: 12px 26px;
+    border-radius: 999px;
+    font-weight: 600;
+    text-decoration: none;
+    border: 2px solid var(--gold);
+    transition: background 0.25s ease, color 0.25s ease;
+}
+
+.btn-primary { background: var(--gold); color: var(--indigo-900); }
+.btn-primary:hover { background: transparent; color: var(--gold); }
+.btn-ghost { color: var(--gold); }
+.btn-ghost:hover { background: var(--gold); color: var(--indigo-900); }
+
+/* Çizim (hi.jpg): beyaz zemini gizler, çizgileri beyaz yapar */
+.doodle {
+    display: block;
+    width: min(340px, 75vw);
+    margin: 0 auto;
+    filter: invert(1);
+    mix-blend-mode: screen;
+    animation: float 4s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0) rotate(-1deg); }
+    50%      { transform: translateY(-14px) rotate(1deg); }
+}
+
+/* Çalışma alanları listesi */
+.focus-list { display: grid; gap: 0; }
+
+.focus-item {
+    padding: 18px 0;
+    border-top: 1px solid var(--line);
+}
+
+.focus-item:first-child { border-top: 0; padding-top: 0; }
+.focus-item:last-child { padding-bottom: 0; }
+.focus-item p { margin: 0; color: var(--muted); }
+
+/* ===== Tablo (Technologies) ===== */
+.table-wrap {
+    overflow-x: auto;
+    border: 2px solid rgba(255, 255, 255, 0.55);
+    border-radius: 12px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 14px 16px;
+    text-align: left;
+    vertical-align: middle;
+    border-right: 1px solid rgba(255, 255, 255, 0.35);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.35);
+}
+
+th:last-child, td:last-child { border-right: 0; }
+tbody tr:last-child td { border-bottom: 0; }
+
+th { background: var(--indigo-600); color: #fff; border-bottom: 2px solid rgba(255, 255, 255, 0.55); }
+tbody tr:hover td { background: rgba(255, 255, 255, 0.05); }
+
+/* Logolar açık zeminli kutuda: koyu yazılı logolar (Git) koyu arka planda kaybolmasın */
+td img {
+    display: block;
+    margin: 0 auto;
+    width: 54px;
+    height: 54px;
+    padding: 7px;
+    background: #fff;
+    border-radius: 10px;
+    object-fit: contain;
+}
+
+/* ===== Staj maddeleri ===== */
+.duties { margin: 0 0 8px; padding-left: 22px; }
+.duties li { margin-bottom: 6px; max-width: 68ch; }
+
+/* ===== Haritalar (Projects / Internships) ===== */
+.map {
+    width: 100%;
+    height: 420px;
+    border-radius: 10px;
+    border: 1px solid var(--line);
+    overflow: hidden;
+    margin-top: 16px;
+}
+
+.map-note { color: var(--muted); font-size: 0.95rem; margin-top: 12px; }
+.map-note strong { color: var(--gold); }
+.map-note a { color: var(--gold); }
+
+/* ===== Mobil ===== */
+@media (max-width: 800px) {
+    nav { flex-direction: column; gap: 10px; }
+    .nav-links { justify-content: center; gap: 6px 20px; }
+    .hero { grid-template-columns: 1fr; min-height: auto; padding-top: 16px; }
+    .doodle { order: -1; width: min(240px, 60vw); }
+    section { padding: 22px; }
+    .map { height: 320px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .doodle { animation: none; }
+    html { scroll-behavior: auto; }
 }
