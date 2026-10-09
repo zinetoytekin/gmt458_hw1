@@ -22,17 +22,13 @@
     </nav>
 
     <main>
-        <h1 class="page-title">Background</h1>
+        <h1 class="page-title">Education</h1>
 
         <section>
-            <h2>Education</h2>
-            <p>I am a 4th-year Geomatics Engineering student at Hacettepe University.</p>
+            <h2>University</h2>
+            <p>  Geomatics Engineering student at Hacettepe University.</p>
         </section>
 
-        <section>
-            <h2>Research interests</h2>
-            <p>I am working on space situational awareness, WebXR-based satellite orbit analysis, and robotic autonomous systems (ROS 2).</p>
-        </section>
         <section>
             <h2>Where I study</h2>
             <p>The campus marker is visible from zoom level 9 and up. Zoom out and it disappears, so markers never pile up on top of each other.</p>
@@ -50,7 +46,7 @@
             center: [39.867, 32.735],
             zoom: 10,
             minZoom: 2,
-            // Sorun 2: Dünya tekrar etmesin
+            // Dünya tekrar etmesin
             maxBounds: [[-90, -180], [90, 180]],
             maxBoundsViscosity: 1.0
         });
@@ -62,7 +58,6 @@
             bounds: [[-90, -180], [90, 180]]
         }).addTo(map);
 
-        // Yaklaşık koordinatlar
         const places = [
             { name: 'Hacettepe University - Beytepe Campus', pos: [39.867, 32.735] }
         ];

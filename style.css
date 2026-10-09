@@ -26,18 +26,7 @@ body {
     background-color: var(--indigo-900); /* görsel yüklenmezse yedek renk */
 }
 
-/* Arka plan görseli: her sayfada, her zaman tüm ekranı kaplar.
-   background-attachment: fixed mobilde sorunlu olduğu için
-   sabit konumlu bir katman kullanıyoruz. */
-body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    z-index: -1;
-    background: url("backp.jpg") center / cover no-repeat;
-}
-
-/* Metin okunurluğu için görselin üstüne çok hafif koyu perde */
+/* hafif koyu perde */
 body::after {
     content: "";
     position: fixed;
@@ -45,7 +34,6 @@ body::after {
     z-index: -1;
     background: linear-gradient(180deg, rgba(10, 8, 34, 0.25), rgba(10, 8, 34, 0.55));
 }
-
 /* ===== Menü ===== */
 nav {
     position: sticky;
@@ -202,7 +190,7 @@ footer {
     50%      { transform: translateY(-14px) rotate(1deg); }
 }
 
-/* Çalışma alanları listesi */
+/* Çalışma alanlar */
 .focus-list { display: grid; gap: 0; }
 
 .focus-item {
@@ -214,7 +202,7 @@ footer {
 .focus-item:last-child { padding-bottom: 0; }
 .focus-item p { margin: 0; color: var(--muted); }
 
-/* ===== Tablo (Technologies) ===== */
+/* Technologies) */
 .table-wrap {
     overflow-x: auto;
     border: 2px solid rgba(255, 255, 255, 0.55);
@@ -240,7 +228,7 @@ tbody tr:last-child td { border-bottom: 0; }
 th { background: var(--indigo-600); color: #fff; border-bottom: 2px solid rgba(255, 255, 255, 0.55); }
 tbody tr:hover td { background: rgba(255, 255, 255, 0.05); }
 
-/* Logolar açık zeminli kutuda: koyu yazılı logolar (Git) koyu arka planda kaybolmasın */
+/*  açık zeminli kutuda */
 td img {
     display: block;
     margin: 0 auto;
@@ -252,11 +240,10 @@ td img {
     object-fit: contain;
 }
 
-/* ===== Staj maddeleri ===== */
 .duties { margin: 0 0 8px; padding-left: 22px; }
 .duties li { margin-bottom: 6px; max-width: 68ch; }
 
-/* ===== Haritalar (Projects / Internships) ===== */
+/* map */
 .map {
     width: 100%;
     height: 420px;
@@ -270,7 +257,7 @@ td img {
 .map-note strong { color: var(--gold); }
 .map-note a { color: var(--gold); }
 
-/* ===== Mobil ===== */
+
 @media (max-width: 800px) {
     nav { flex-direction: column; gap: 10px; }
     .nav-links { justify-content: center; gap: 6px 20px; }
