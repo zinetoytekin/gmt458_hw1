@@ -30,10 +30,14 @@
         </section>
 
         <section>
+            <h2>Research interests</h2>
+            <p>I am working on space situational awareness, WebXR-based satellite orbit analysis, and robotic autonomous systems (ROS 2).</p>
+        </section>
+        <section>
             <h2>Where I study</h2>
-            <p>Zoom in to see the campus markers. </p>
+            <p>The campus marker is visible from zoom level 9 and up. Zoom out and it disappears, so markers never pile up on top of each other.</p>
             <div id="leaflet-map" class="map"></div>
-            <p class="map-note">Current zoom: <strong id="zoom-level">6</strong> &middot; <span id="marker-status">markers hidden</span></p>
+            <p class="map-note">Current zoom: <strong id="zoom-level">10</strong> &middot; <span id="marker-status">markers hidden</span></p>
         </section>
     </main>
 
@@ -43,24 +47,24 @@
         const MARKER_MIN_ZOOM = 9;
 
         const map = L.map('leaflet-map', {
-            center: [39.9, 32.8],
-            zoom: 6,
+            center: [39.867, 32.735],
+            zoom: 10,
             minZoom: 2,
             // Sorun 2: Dünya tekrar etmesin
             maxBounds: [[-90, -180], [90, 180]],
             maxBoundsViscosity: 1.0
         });
 
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; OpenStreetMap contributors',
+            maxZoom: 19,
             noWrap: true,
             bounds: [[-90, -180], [90, 180]]
         }).addTo(map);
 
         // Yaklaşık koordinatlar
         const places = [
-            { name: 'Hacettepe University - Beytepe', pos: [39.867, 32.735] },
-            { name: 'Hacettepe University - Sıhhiye', pos: [39.934, 32.861] }
+            { name: 'Hacettepe University - Beytepe Campus', pos: [39.867, 32.735] }
         ];
 
         const markerLayer = L.layerGroup(
@@ -75,7 +79,7 @@
             if (show && !map.hasLayer(markerLayer)) map.addLayer(markerLayer);
             if (!show && map.hasLayer(markerLayer)) map.removeLayer(markerLayer);
             document.getElementById('marker-status').textContent =
-                show ? 'markers visible' : 'markers hidden (zoom in to level ' + MARKER_MIN_ZOOM + ')';
+                show ? 'markers visible' : 'markers hidden (zoom in to level ' + MARKER_MIN_ZOOM + ' or more)';
         }
 
         map.on('zoomend', updateMarkers);
