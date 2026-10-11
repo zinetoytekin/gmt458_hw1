@@ -8,7 +8,7 @@ GMT 458 Web GIS - Assignment 1
 
 | File | Content |
 |---|---|
-| `index.html` | Home page: introduction, animated drawing, contact |
+| `index.html` | Home page |
 | `background.html` | Education and a Leaflet map of my campus |
 | `technologies.html` | Table of the tools I use, with logos |
 | `internships.html` | My two internships and an OpenLayers map of both locations |
@@ -34,7 +34,7 @@ When I opened `background.html` by double-clicking the file (the address started
 **Cause:** the OpenStreetMap tile servers check the `Referer` header to see which website is requesting tiles. A page opened from `file:///` sends no Referer, so OpenStreetMap blocks it. My code was not wrong.
 
 **How I solved it:**
-1. I stopped opening the file directly. I served the folder through a local web server instead (VS Code Live Server, address `http://127.0.0.1:5500`; `python -m http.server` also works), so the browser sends a Referer.
+1. I stopped opening the file directly. I served the folder through a local web server instead (VS Code Live Server), so the browser sends a Referer.
 2. I changed the tile URL from `https://{s}.tile.openstreetmap.org/...` to `https://tile.openstreetmap.org/{z}/{x}/{y}.png` (OpenStreetMap no longer recommends the `{s}` sub-domains) and added `maxZoom: 19`.
 3. On GitHub Pages (`https://...github.io`) the maps work without any extra step, because the site is served over https.
 
