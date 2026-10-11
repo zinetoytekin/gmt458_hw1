@@ -23,17 +23,9 @@ body {
     font-size: 1.1rem;
     line-height: 1.65;
     color: var(--text);
-    background-color: var(--indigo-900); /* görsel yüklenmezse yedek renk */
+    background-color: var(--indigo-900); /* sayfa arka plan rengi */
 }
 
-/* hafif koyu perde */
-body::after {
-    content: "";
-    position: fixed;
-    inset: 0;
-    z-index: -1;
-    background: linear-gradient(180deg, rgba(10, 8, 34, 0.25), rgba(10, 8, 34, 0.55));
-}
 /* ===== Menü ===== */
 nav {
     position: sticky;
