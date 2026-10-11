@@ -49,5 +49,5 @@ The OpenLayers map on `internships.html` uses the same OpenStreetMap servers, so
 
 ## AI usage
 
-Estimated total AI usage: **[WRITE YOUR OWN ESTIMATE HERE, e.g. about 3 hours]**
+Estimated total AI usage: 2-3 hours
 
