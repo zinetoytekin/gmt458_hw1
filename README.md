@@ -8,46 +8,46 @@ GMT 458 Web GIS - Assignment 1
 
 | File | Content |
 |---|---|
-| `index.html` | Home page |
-| `background.html` | Education and a Leaflet map of my campus |
-| `technologies.html` | Table of the tools I use, with logos |
-| `internships.html` | My two internships and an OpenLayers map of both locations |
-| `style.css` | Shared stylesheet (colours are variables at the top of the file) |
+| `index.html` | Home page with an introduction, an animated drawing, and contact information |
+| `background.html` | My education and a Leaflet map of my campus |
+| `technologies.html` | A table of the tools I use, with their logos |
+| `internships.html` | Information about my two internships and an OpenLayers map of their locations |
+| `style.css` | Shared CSS file. The color variables are at the top of the file. |
 
-## How the requirements are met
+## How I Met the Assignment Requirements
 
-- **HTML:** four different HTML files linked by a shared menu.
-- **CSS animation:** the drawing on the home page floats up and down (`@keyframes float`). Menu links also have an animated underline.
-- **Table with images:** `technologies.html` (logo, software, use case).
-- **OpenLayers:** `internships.html` shows both internship locations on one map.
-- **Leaflet:** `background.html` shows the Hacettepe University Beytepe campus.
-- **Issue 1 (overlapping markers):** the Leaflet markers live in an `L.layerGroup`. On every `zoomend` event the group is added to the map only if the zoom level is 9 or higher, and removed otherwise. The page shows the current zoom and whether the markers are visible.
-- **Issue 2 (Earth repeating):**
-  - Leaflet: `noWrap: true` on the tile layer, plus `maxBounds` with `maxBoundsViscosity: 1.0` so the map cannot be dragged outside the world.
-  - OpenLayers: `wrapX: false` on the OSM source, plus an `extent` on the view.
-- **Git:** committed on at least three different days.
+- **HTML:** I used four HTML pages. All pages are linked by the same menu.
+- **CSS animation:** The drawing on the home page moves up and down with `@keyframes float`. The menu links also have an animated underline.
+- **Table with images:** The `technologies.html` page has a table with logos, software names, and their uses.
+- **OpenLayers:** The `internships.html` page shows both internship locations on one map.
+- **Leaflet:** The `background.html` page shows the Hacettepe University Beytepe Campus.
+- **Issue 1 (overlapping markers):** The Leaflet markers are in an `L.layerGroup`. The group is added to the map when the zoom level is 9 or higher. It is removed when the zoom level is below 9. The page also shows the current zoom level and whether the markers are visible.
+- **Issue 2 (repeating world map):**
+  - **Leaflet:** I used `noWrap: true` on the tile layer. I also used `maxBounds` and `maxBoundsViscosity: 1.0` to stop the map from being dragged outside the world.
+  - **OpenLayers:** I used `wrapX: false` on the OSM source and set an `extent` for the map view.
+- **Git:** I made commits on at least three different days.
 
-## Problem : map tiles showed "403 Access blocked"
+## Problem: Map Tiles Showed "403 Access Blocked"
 
-When I opened `background.html` by double-clicking the file (the address started with `file:///C:/...`), every map tile was replaced by a grey "403 - Access blocked - App is not following the tile usage policy of OpenStreetMap" image.
+When I opened `background.html` by double-clicking the file, the address started with `file:///C:/...`. All map tiles showed a grey error image. The image contained a 403 error message from OpenStreetMap.
 
-**Cause:** the OpenStreetMap tile servers check the `Referer` header to see which website is requesting tiles. A page opened from `file:///` sends no Referer, so OpenStreetMap blocks it. My code was not wrong.
+**Cause:** OpenStreetMap tile servers check where map requests come from. A page opened with `file:///` does not have a normal web address as its origin. This can cause tile requests to be blocked.
 
-**How I solved it:**
-1. I stopped opening the file directly. I served the folder through a local web server instead (VS Code Live Server), so the browser sends a Referer.
-2. I changed the tile URL from `https://{s}.tile.openstreetmap.org/...` to `https://tile.openstreetmap.org/{z}/{x}/{y}.png` (OpenStreetMap no longer recommends the `{s}` sub-domains) and added `maxZoom: 19`.
-3. On GitHub Pages (`https://...github.io`) the maps work without any extra step, because the site is served over https.
+**How I Tested and Fixed the Problem:**
 
-The OpenLayers map on `internships.html` uses the same OpenStreetMap servers, so it behaves the same way: it needs a local server when testing and works on GitHub Pages.
+1. I stopped opening the file directly. Instead, I used a local web server. I used VS Code Live Server.
+2. I changed the tile URL from `https://{s}.tile.openstreetmap.org/...` to `https://tile.openstreetmap.org/{z}/{x}/{y}.png`. I also set `maxZoom: 19`.
+3. I tested the maps on GitHub Pages. The maps work there without the local server because the website is hosted online.
 
-## Other things I learned from AI
+The OpenLayers map on `internships.html` uses OpenStreetMap tiles too. Therefore, I also need to test it with a local web server. I checked the map on GitHub Pages as well.
 
-- **Drawing with a transparent look:** my drawing is a JPG with a white background. `filter: invert(1)` plus `mix-blend-mode: screen` hides the white and turns the black lines white, so it fits the dark background without editing the image.
-- **Keeping colours in one place:** CSS variables in `:root` (`--gold`, `--panel`, `--indigo-600`) change the theme of the whole site from one place.
-- **Nested boxes bug:** a missing `</section>` tag made one box appear inside another.
-- **GitHub Pages:** Settings > Pages > Deploy from a branch > `main` / `/ (root)`.
+## Other Things I Learned from AI
 
-## AI usage
+- **Changing the drawing's appearance:** My drawing is a JPG file with a white background. I used `filter: invert(1)` and `mix-blend-mode: screen` to make the drawing fit the dark background. This allowed me to change its appearance without editing the image file.
+- **Managing colors:** I used CSS variables in `:root`, such as `--gold`, `--panel`, and `--indigo-600`. This makes it easier to change the site's colors in one place.
+- **Fixing nested boxes:** A missing `</section>` tag caused one box to appear inside another. Adding the missing tag fixed the problem.
+- **GitHub Pages:** I used `Settings > Pages > Deploy from a branch > main / (root)` to publish the website.
 
-Estimated total AI usage: 2-3 hours
+## AI Usage
 
+Estimated total AI usage: 3 h
